@@ -1,38 +1,25 @@
 import React from "react"
-import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
-import store from "../store";
 import actionCreators from '../store/actionCreators/counter1'
 
-const boundActionCreators = bindActionCreators(actionCreators, store.dispatch)
-// boundActionCreators = {add:()=>dispatch({ type: ADD }),minus} 这样不用手动派发了
 
 class Counter1 extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { number: store.getState().counter1.number }
-    }
-
-    componentDidMount() {
-        // 订阅
-        this.unsubscribe = store.subscribe(() => this.setState({
-            number: store.getState().counter1.number
-        }))
-    }
-
-    componentWillUnmount() {
-        // 取消订阅
-        this.unsubscribe()
-    }
-
     render() {
         return (
             <div>
-                <p>{this.state.number}</p>
-                <button onClick={boundActionCreators.add1}>+</button>
-                <button onClick={boundActionCreators.minus1}>-</button>
+                <p>{this.props.number}</p>
+                <button onClick={this.props.add1}>+</button>
+                <button onClick={this.props.minus1}>-</button>
             </div>
         )
     }
 }
-export default Counter1
+
+// 把仓库中的状态映射为组件的属性对象，仓库到组件的输入
+const mapStateToProps = state => state.counter1
+
+export default connect(
+    mapStateToProps,
+    actionCreators // 会帮我们做自动绑定，组件的输出，在组件里派发动作，修改仓库
+)(Counter1)
