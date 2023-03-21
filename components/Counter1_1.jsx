@@ -1,5 +1,5 @@
 import React from "react"
-import { createStore, bindActionCreators } from 'redux'
+import { createStore } from 'redux'
 
 const ADD = 'ADD'
 const MINUS = 'MINUS'
@@ -21,19 +21,6 @@ function reducer(state = initialState, action) {
     }
 }
 const store = createStore(reducer)
-
-// 优化操作：
-function add() { // actionCreate 他是一个创建action的函数
-    return { type: ADD }
-}
-
-function minus() { // actionCreate 他是一个创建action的函数
-    return { type: MINUS }
-}
-
-const actionCreators = { add, minus }
-const boundActionCreators = bindActionCreators(actionCreators, store.dispatch)
-// boundActionCreators = {add:()=>dispatch({ type: ADD }),minus} 这样不用手动派发了
 
 class Counter1 extends React.Component {
     constructor(props) {
@@ -57,8 +44,8 @@ class Counter1 extends React.Component {
         return (
             <div>
                 <p>{this.state.number}</p>
-                <button onClick={boundActionCreators.add}>+</button>
-                <button onClick={boundActionCreators.minus}>-</button>
+                <button onClick={() => store.dispatch({ type: ADD })}>+</button>
+                <button onClick={() => store.dispatch({ type: MINUS })}>-</button>
             </div>
         )
     }
