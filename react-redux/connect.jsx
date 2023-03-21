@@ -18,19 +18,22 @@ function connect(mapStateToProps, mapDispatchToProps) {
                 super(props)
                 const { store } = context // 拿到context的仓库
                 const { getState, subscribe, dispatch } = store
+
+                // 先获取仓库中的总状态{counter1:{number:0},counter2:{number:0}}
                 this.state = mapStateToProps(getState()) // 仓库状态映射为属性对象
-                // 订阅
+                // 订阅仓库中的状态变化事件，当仓库中的状态发生改变后，重新用新的映射状态设置setState
                 this.unsubscribe = subscribe(() => {
                     this.setState(mapStateToProps(getState()))
                 })
 
-                
+
                 let dispatchProps;
-                // 判断传递的是函数
+                // 简单说函数自己绑，对象这里自动绑定
+                // 判断mapDispatchToProps传递的是函数
                 if (typeof mapDispatchToProps === 'function') {
                     dispatchProps = mapDispatchToProps(dispatch)
                 } else {
-                    // 传递的对象，用 bindActionCreators 做个绑定
+                    // 如果传递的对象，用 bindActionCreators 做个绑定
                     dispatchProps = bindActionCreators(mapDispatchToProps, dispatch)
                 }
                 // 最后赋值
