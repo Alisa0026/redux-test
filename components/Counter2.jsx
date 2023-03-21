@@ -2,7 +2,7 @@ import React from "react"
 import { bindActionCreators } from 'redux'
 
 import store from "../store";
-import actionCreators from '../store/actionCreators/counter1'
+import actionCreators from '../store/actionCreators/counter2'
 
 const boundActionCreators = bindActionCreators(actionCreators, store.dispatch)
 // boundActionCreators = {add:()=>dispatch({ type: ADD }),minus} 这样不用手动派发了
@@ -10,13 +10,13 @@ const boundActionCreators = bindActionCreators(actionCreators, store.dispatch)
 class Counter1 extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { number: store.getState().counter1.number }
+        this.state = { number: store.getState().counter2.number }
     }
 
     componentDidMount() {
         // 订阅
         this.unsubscribe = store.subscribe(() => this.setState({
-            number: store.getState().counter1.number
+            number: store.getState().counter2.number
         }))
     }
 
@@ -29,8 +29,8 @@ class Counter1 extends React.Component {
         return (
             <div>
                 <p>{this.state.number}</p>
-                <button onClick={boundActionCreators.add1}>+</button>
-                <button onClick={boundActionCreators.minus1}>-</button>
+                <button onClick={boundActionCreators.add2}>+</button>
+                <button onClick={boundActionCreators.minus2}>-</button>
             </div>
         )
     }
