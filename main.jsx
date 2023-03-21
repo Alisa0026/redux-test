@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Provider } from "react-redux";
+import { Provider } from "./react-redux";
 import Counter1 from './components/Counter1'
 import Counter2 from './components/Counter2'
 // 使用 react-redux
