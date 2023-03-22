@@ -2,21 +2,9 @@ import { createStore, bindActionCreators } from '../redux'
 // 把reducer都放到reducer文件夹中，每个组件对应一个reducer
 // 把reducer合并
 import combineReducer from "./reducers";
-
-// 实现异步1s后加1
-function thunk({ getState, dispatch }) {
-    // next就是 oldDispatch，一般叫下一步所以是next，其实就是原始的 store.dispatch
-    return function (next) {
-        return function (action) {//此方法就是改造后的dispatch方法
-            // 判断action是对象还是function
-            if (typeof action === 'function') {
-                return action(getState, dispatch)
-            }
-            // 不是函数直接return next(action) 下一步
-            return next(action)
-        }
-    }
-}
+import promise from './redux-promise';
+import thunk from './redux-thunk';
+import logger from './redux-logger';
 
 // 使用
 // 为什么这么多层？函数柯里化。这里每一层可以传的参数数量不固定，比如中间件可以传多个
@@ -51,7 +39,7 @@ function applyMiddleware(middleware) {
 // 调用 applyMiddleware 先传入logger
 // 返回函数传入 createStore
 // 又返回的新函数，传入 combineReducer，然后返回一个新仓库store
-const store = applyMiddleware(thunk)(createStore)(combineReducer)
+const store = applyMiddleware(promise)(createStore)(combineReducer)
 
 /*
 const store = createStore(combineReducer)

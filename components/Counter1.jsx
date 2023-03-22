@@ -11,7 +11,8 @@ class Counter1 extends React.Component {
                 <p>{this.props.number}</p>
                 <button onClick={this.props.add1}>+</button>
                 <button onClick={this.props.minus1}>-</button>
-                <button onClick={this.props.thunkAdd}>asyncAdd(异步+1)</button>
+                <button onClick={this.props.thunkAdd}>thunkAdd(异步+1)</button>
+                <button onClick={this.props.promiseAdd}>promiseAdd(+1)</button>
             </div>
         )
     }
