@@ -6,15 +6,15 @@ import combineReducer from "./reducers";
 // 实现一个真正的日志中间件，中间件格式是固定的
 // 接受一个对象（有getState和dispatch），返回一个新函数，接入原始的老的dispatch方法 oldDispatch，再返回一个函数接收一个action
 // function logger({ getState, dispatch }) {}
-// ??? 这里传是像store但是不是，{ getState, dispatch } dispatch 不是原生的 dispatch，是改造后的 dispatch。需要改造
-function logger({ getState, dispatch }) {
-    // next就是 oldDispatch，一般叫下一步所以是next，其实就是原始的 store.dispatch
-    return function (next) {
+ // ??? 这里传是像store但是不是，{ getState, dispatch } dispatch 不是原生的 dispatch，是改造后的 dispatch。需要改造
+function logger(store) {
+    // oldDispatch 其实就是原始的 store.dispatch
+    return function (oldDispatch) {
         return function (action) {//此方法就是改造后的dispatch方法
-            console.log('老状态', getState());
+            console.log('老状态', store.getState());
             //调用原始的dispatch方法，传入动作action，发给仓库，仓库里会调用reducer计算新状态
-            next(action)
-            console.log('新状态', getState());
+            oldDispatch(action)
+            console.log('新状态', store.getState());
             // 返回action本身
             return action
         }
@@ -30,19 +30,12 @@ function applyMiddleware(logger) {
     return function (createStore) {
         // 传入处理器 reducer
         return function (reducer) {
-
             // 先用原始的createStore创建原始的 store
             const store = createStore(reducer)
-
-            let dispatch;
-            let middlewareAPI = {
-                getState: store.getState,
-                // 这里的dispatch是新的dispatch，因为中间件可以嵌套，logger的参数里接收的也是新改造的dispatch
-                // 这里不可以直接赋值为dispatch而省略函数定义，因为赋值给middlewareAPI中的dispatch是undefined，下面给dispatch赋值以后，这里dispatch还是undefined，所以不能省略
-                dispatch: (action) => dispatch(action)
-            }
-            // 在此之前是不能调用dispatch方法的，因为没有赋值
-            dispatch = logger(middlewareAPI)(store.dispatch)
+            // logger先接收对象（有getState和dispatch）即store仓库
+            // 返回函数接收 oldDispatch 其实就是原始的 store.dispatch
+            // 然后返回的就是新的dispatch，下面解构覆盖
+            const dispatch = logger(store)(store.dispatch)
             return {
                 ...store,
                 dispatch
