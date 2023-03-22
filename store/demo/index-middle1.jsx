@@ -5,7 +5,7 @@ import combineReducer from "../reducers";
 
 const store = createStore(combineReducer)
 
-// 实现异步操作改造 dispatch
+// 1 实现异步操作改造 dispatch
 // 获取老的方法
 const oldDispatch = store.dispatch
 /*

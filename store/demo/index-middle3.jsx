@@ -6,7 +6,7 @@ import promise from '../redux-promise';
 import thunk from '../redux-thunk';
 import logger from '../redux-logger';
 
-// 使用
+// 把中间件抽离出，并对 applyMiddleware 方法中 middlewareAPI 进行优化
 // 为什么这么多层？函数柯里化。这里每一层可以传的参数数量不固定，比如中间件可以传多个
 // 三步确定所有参数（第一层确定中间件，第二层获取createStore，第三层获取reducer）,然后一起处理
 // 并且每层更清晰

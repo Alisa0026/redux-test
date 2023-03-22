@@ -3,7 +3,7 @@ import { createStore, bindActionCreators } from '../../redux'
 // 把reducer合并
 import combineReducer from "./reducers";
 
-// 实现一个真正的日志中间件，中间件格式是固定的
+// 2 实现一个真正的日志中间件，中间件格式是固定的
 // 接受一个对象（有getState和dispatch），返回一个新函数，接入原始的老的dispatch方法 oldDispatch，再返回一个函数接收一个action
 // function logger({ getState, dispatch }) {}
  // ??? 这里传是像store但是不是，{ getState, dispatch } dispatch 不是原生的 dispatch，是改造后的 dispatch。需要改造
