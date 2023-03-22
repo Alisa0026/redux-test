@@ -1,4 +1,5 @@
 // 实现异步1s后加1
+// { getState, dispatch } dispatch 不是原生的 dispatch，是改造后的 dispatch。
 function thunk({ getState, dispatch }) {
     // next就是 oldDispatch，一般叫下一步所以是next，其实就是原始的 store.dispatch
     return function (next) {
