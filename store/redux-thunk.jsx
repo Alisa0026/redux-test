@@ -5,6 +5,7 @@ function thunk({ getState, dispatch }) {
     return function (next) {
         return function (action) {//此方法就是改造后的dispatch方法
             // 判断action是对象还是function
+            // 把新的dispatch传给了函数，这样就可以在函数里派发动作
             if (typeof action === 'function') {
                 return action(getState, dispatch)
             }

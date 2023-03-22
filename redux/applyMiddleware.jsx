@@ -13,7 +13,7 @@ function applyMiddleware(...middlewares) {
             // 先用原始的createStore创建原始的 store
             const store = createStore(reducer, preloadedState)
 
-            let dispatch;
+            let dispatch; // 此变量会指向新的dispatch方法 newDispatch
             let middlewareAPI = {
                 getState: store.getState,
                 dispatch: (action) => dispatch(action)
